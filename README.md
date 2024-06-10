@@ -2,11 +2,10 @@
 
 ### Using docker 
     - docker command 
+
+    1. docker-compose build 
+    2. docker-compose up 
     
-    ```
-    docker-compose build 
-    docker-compose up 
-    ```
         
 
 ## Access URL 
