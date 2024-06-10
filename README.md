@@ -2,9 +2,11 @@
 
 ### Using docker 
     - docker command 
-        - ``` docker-compose build ``` 
-        - ``` docker-compose up ``` 
-        
+        ```
+            docker-compose build 
+            docker-compose up 
+        ```
+
 ## Access URL 
     - http://localhost:9000/
 ## PHP myadmin 
