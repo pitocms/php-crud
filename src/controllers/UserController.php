@@ -23,7 +23,14 @@ class UserController {
 	 */
 	public function index() 
 	{
-		$users = $this->user->getAllUsers();
+		$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 10; // Number of records per page
+        $offset = ($page - 1) * $limit;
+
+        $users = $this->user->getAllUsers($limit, $offset);
+        $totalUsers = $this->user->getTotalUsers();
+        $totalPages = ceil($totalUsers / $limit);
+
 		require_once __DIR__ . '/../views/user/index.php';
 	}
 
@@ -53,8 +60,8 @@ class UserController {
 					$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
 					if ($this->user->createUser($username, $email, $hashedPassword, $role_id)) {
+						$_SESSION['success_message'] = "Updated successfully!";
 						header("Location: index.php?action=list");
-						exit();
 					} else {
 						echo "Error creating user.";
 					}
@@ -88,6 +95,7 @@ class UserController {
 			$role_id = $_POST['role_id'];
 
 			if ($this->user->updateUser($id, $username, $email, $role_id)) {
+				$_SESSION['success_message'] = "User created successfully!";
 				header("Location: index.php?action=list");
 			} else {
 				echo "Error updating user.";

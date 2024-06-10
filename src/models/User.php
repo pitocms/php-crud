@@ -34,12 +34,25 @@ class User
 	 * @return array An array of associative arrays.
 	 * @author Alimon
  	*/
-	public function getAllUsers() {
-		$query = "SELECT id, username, email, role_id FROM " . $this->table_name;
+	public function getAllUsers($limit, $offset)
+	{
+		$query = "SELECT * FROM users LIMIT :limit OFFSET :offset";
 		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+
+	public function getTotalUsers()
+    {
+        $query = "SELECT COUNT(*) as total FROM users";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
 
 	
 	/**
